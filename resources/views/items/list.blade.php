@@ -93,14 +93,14 @@
         </div>
 
         <!-- pagination -->
-        <div class="pages">
+        {{-- <div class="pages">
             <nav class="page-nav">
                 <ul class="pager">
                     <li class="previous"><a href="#">&larr; prev</a></li>
                     <li class="next"><a href="#">next &rarr;</a></li>
                 </ul>
             </nav>
-        </div>
+        </div> --}}
 
         <!-- table -->
         <div class="table-responsive">
@@ -128,7 +128,8 @@
             </table>
         </div>
 
-        <!-- pagination -->
+        {{ $items->links('vendor.pagination.bootstrap-4') }}
+        {{-- <!-- pagination -->
         <div class="pages">
             <nav class="page-nav">
                 <ul class="pager">
@@ -152,7 +153,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> --}}
     </div>
 </body>
 

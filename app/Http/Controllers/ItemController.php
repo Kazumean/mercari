@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 class ItemController extends Controller
 {
@@ -14,7 +16,8 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = DB::table('items')->paginate(30);
+        // $items = DB::table('items')->paginate(30);
+        $items = Item::paginate(30);
 
         return view('items.list', compact('items'));
     }
