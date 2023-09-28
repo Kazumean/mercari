@@ -18,4 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// 商品を検索する
+Route::get('/search', [ItemController::class, 'search'])->name('items.search');
+
+// itemに関するリソースコントローラー
 Route::resource('item', ItemController::class);

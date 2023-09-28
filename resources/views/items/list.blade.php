@@ -30,7 +30,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="./list.html">Rakus Items</a>
+            <a class="navbar-brand" href="{{ route('item.index')}}">Rakus Items</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <div>
@@ -52,9 +52,9 @@
 
         <!-- 検索フォーム -->
         <div id="forms">
-            <form action="" class="form-inline" role="form">
+            <form action="{{ route('items.search') }}" class="form-inline" role="form" method="GET">
                 <div class="form-group">
-                    <input type="input" class="form-control" id="name" placeholder="item name" />
+                    <input type="input" class="form-control" id="itemName" name="itemName" placeholder="item name" />
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>
                 <div class="form-group">

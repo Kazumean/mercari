@@ -17,8 +17,9 @@ class ItemController extends Controller
     public function index()
     {
         $items = DB::table('items')
-                    ->select('items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
+                    ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
                     ->leftJoin('category','items.category_id', '=', 'category.id')
+                    ->orderBy('item_id')
                     ->paginate(30);
         
         $parentCategories = DB::table('category')
@@ -36,8 +37,38 @@ class ItemController extends Controller
                                 ->whereNotNull('name_all')
                                 ->get();
 
-        // dd($parentCategories);
+        return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
+    }
+    
+    // 商品を検索する
+    public function search(Request $request)
+    {
+        $itemName = $request->input('itemName');
 
+        $items = DB::table('items')
+                    ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
+                    ->leftJoin('category','items.category_id', '=', 'category.id')
+                    ->where(function ($query) use ($itemName) {
+                        $query->where('items.name', 'like', "%$itemName%");
+                    })
+                    ->orderBy('items.id')
+                    ->paginate(30);
+
+        $parentCategories = DB::table('category')
+                ->whereNull('parent')
+                ->whereNull('name_all')
+                ->get();
+
+        $childCategories = DB::table('category')
+                ->whereNotNull('parent')
+                ->whereNull('name_all')
+                ->get();
+
+        $grandChildCategories = DB::table('category')
+                    ->whereNotNull('parent')
+                    ->whereNotNull('name_all')
+                    ->get();
+        
         return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
     }
 
