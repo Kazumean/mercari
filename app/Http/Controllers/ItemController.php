@@ -16,8 +16,12 @@ class ItemController extends Controller
      */
     public function index()
     {
-        // $items = DB::table('items')->paginate(30);
-        $items = Item::paginate(30);
+        $items = DB::table('items')
+                    ->select('items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
+                    ->leftJoin('category','items.category_id', '=', 'category.id')
+                    ->paginate(30);
+                    
+        // dd($items);
 
         return view('items.list', compact('items'));
     }

@@ -116,10 +116,18 @@
                 </thead>
                 <tbody>
                     @foreach ($items as $item)
+                        {{-- categoryのname_allを区切り文字で要素に分ける --}}
+                        @php
+                            $categoryNameAll = $item->name_all;
+                            $category = explode('/', $categoryNameAll);
+                        @endphp
                         <tr>
-                            <td class="item-name"><a href="./detail.html">{{ $item->name }}</a></td>
+                            <td class="item-name"><a href="./detail.html">{{ $item->item_name }}</a></td>
                             <td class="item-price">{{ $item->price }}</td>
-                            <td class="item-category"><a href="">Electronics</a> / <a href="">Computers &amp; Tablets</a> / <a href="">Components &amp; Parts</a></td>
+                            <td class="item-category">
+                                <a href="">{{ isset($category[0]) ? $category[0] : '' }}</a> / <a href="">{{ isset($category[1]) ? $category[1] : '' }}</a> / <a
+                                    href="">{{ $item->category_name }}</a>
+                            </td>
                             <td class="item-brand"><a href="">{{ $item->brand }}</a></td>
                             <td class="item-condition">{{ $item->condition_id }}</td>
                         </tr>
