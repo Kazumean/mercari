@@ -66,19 +66,15 @@
                     </select>
                     <select class="form-control">
                         <option>- childCategory -</option>
-                        <option>childCategory1</option>
-                        <option>childCategory2</option>
-                        <option>childCategory3</option>
-                        <option>childCategory4</option>
-                        <option>childCategory5</option>
+                        @foreach ($childCategories as $childCategory)    
+                        <option>{{ $childCategory->name }}</option>
+                        @endforeach
                     </select>
                     <select class="form-control">
                         <option>- grandChild -</option>
-                        <option>grandChild1</option>
-                        <option>grandChild2</option>
-                        <option>grandChild3</option>
-                        <option>grandChild4</option>
-                        <option>grandChild5</option>
+                        @foreach ($grandChildCategories as $grandChildCategory)    
+                        <option>{{ $grandChildCategory->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>

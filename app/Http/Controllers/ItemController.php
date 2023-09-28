@@ -25,10 +25,20 @@ class ItemController extends Controller
                             ->whereNull('parent')
                             ->whereNull('name_all')
                             ->get();
+        
+        $childCategories = DB::table('category')
+                            ->whereNotNull('parent')
+                            ->whereNull('name_all')
+                            ->get();
+        
+        $grandChildCategories = DB::table('category')
+                                ->whereNotNull('parent')
+                                ->whereNotNull('name_all')
+                                ->get();
 
         // dd($parentCategories);
 
-        return view('items.list', compact('items', 'parentCategories'));
+        return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
     }
 
     /**
