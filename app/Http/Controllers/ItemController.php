@@ -44,12 +44,16 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $itemName = $request->input('itemName');
+        $brand = $request->input('brand');
 
         $items = DB::table('items')
                     ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
                     ->leftJoin('category','items.category_id', '=', 'category.id')
                     ->where(function ($query) use ($itemName) {
                         $query->where('items.name', 'like', "%$itemName%");
+                    })
+                    ->where(function ($query) use ($brand) {
+                        $query->where('items.brand', 'like', "%$brand%");
                     })
                     ->orderBy('items.id')
                     ->paginate(30);

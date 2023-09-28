@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="brand" />
+                    <input type="text" class="form-control" id="brand" name="brand" placeholder="brand" />
                 </div>
                 <div class="form-group"></div>
                 <button type="submit" class="btn btn-default"><i class="fa fa-angle-double-right"></i> search</button>
