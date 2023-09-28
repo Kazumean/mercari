@@ -20,10 +20,15 @@ class ItemController extends Controller
                     ->select('items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
                     ->leftJoin('category','items.category_id', '=', 'category.id')
                     ->paginate(30);
-                    
-        // dd($items);
+        
+        $parentCategories = DB::table('category')
+                            ->whereNull('parent')
+                            ->whereNull('name_all')
+                            ->get();
 
-        return view('items.list', compact('items'));
+        // dd($parentCategories);
+
+        return view('items.list', compact('items', 'parentCategories'));
     }
 
     /**

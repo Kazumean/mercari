@@ -60,11 +60,9 @@
                 <div class="form-group">
                     <select class="form-control">
                         <option>- parentCategory -</option>
-                        <option>parentCategory1</option>
-                        <option>parentCategory2</option>
-                        <option>parentCategory3</option>
-                        <option>parentCategory4</option>
-                        <option>parentCategory5</option>
+                        @foreach ($parentCategories as $parentCategory)    
+                        <option>{{ $parentCategory->name }}</option>
+                        @endforeach
                     </select>
                     <select class="form-control">
                         <option>- childCategory -</option>
