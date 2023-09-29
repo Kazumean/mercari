@@ -25,3 +25,31 @@ document.getElementById('parent_category_id').addEventListener('change', functio
             console.log(error);
         });
 });
+
+
+// 中カテゴリが変更されたときのイベントハンドラ
+document.getElementById('child_category_id').addEventListener('change', function() {
+    const childCategoryId = this.value;
+
+    // Ajaxリクエストを送信
+    axios.get(`/get-grandchildcategories?child_category_id=${childCategoryId}`)
+        .then(function (response) {
+            const grandchildCategories = response.data;
+
+            // 小カテゴリのプルダウンをクリア
+            const grandchildCategorySelect = document.getElementById('grandchild_category_id');
+            grandchildCategorySelect.innerHTML = '';
+
+            // 取得した小カテゴリをプルダウンに追加
+            grandchildCategories.forEach(function (grandchildCategory) {
+                const option = document.createElement('option');
+                option.value = grandchildCategory.id;
+                option.text = grandchildCategory.name;
+                grandchildCategorySelect.appendChild(option);
+            });
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+});
+

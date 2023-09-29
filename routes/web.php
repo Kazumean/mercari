@@ -27,3 +27,4 @@ Route::resource('item', ItemController::class);
 
 // categoryに関するルート
 Route::get('/get-childcategories', [CategoryController::class, 'getChildCategories']);
+Route::get('/get-grandchildcategories', [CategoryController::class, 'getGrandchildCategories']);

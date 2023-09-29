@@ -7,14 +7,27 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
+    // 大カテゴリから中カテゴリを抽出する
     public function getChildCategories(Request $request)
     {
-        $parentCategory = $request->input('parent_category_id');
+        $parentCategoryId = $request->input('parent_category_id');
 
         $childCategories = DB::table('category')
-                            ->where('parent', $parentCategory)
+                            ->where('parent', $parentCategoryId)
                             ->get();
         
         return response()->json($childCategories);
     }
+
+    // 中カテゴリから小カテゴリを抽出する
+    public function getGrandchildCategories(Request $request)
+{
+        $childCategoryId = $request->input('child_category_id');
+
+        $grandChildCategories = DB::table('category')
+                                ->where('parent', $childCategoryId)
+                                ->get();
+    
+        return response()->json($grandChildCategories);
+}
 }

@@ -72,7 +72,7 @@
                         <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
                         @endforeach
                     </select>
-                    <select class="form-control">
+                    <select id="grandchild_category_id" class="form-control">
                         <option>- grandChild -</option>
                         @foreach ($grandChildCategories as $grandChildCategory)    
                         <option>{{ $grandChildCategory->name }}</option>
