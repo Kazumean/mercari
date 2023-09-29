@@ -11,12 +11,14 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
         integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
-    <link rel="stylesheet" href="./mercari.css" />
+    <link rel="stylesheet" href="{{ asset('/css/mercari.css') }}" />
     <!-- script -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <title>Rakus Items</title>
 </head>
 
@@ -58,16 +60,16 @@
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>
                 <div class="form-group">
-                    <select class="form-control">
+                    <select id="parent_category_id" class="form-control">
                         <option>- parentCategory -</option>
                         @foreach ($parentCategories as $parentCategory)    
-                        <option>{{ $parentCategory->name }}</option>
+                        <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
                         @endforeach
                     </select>
-                    <select class="form-control">
+                    <select id="child_category_id" class="form-control">
                         <option>- childCategory -</option>
                         @foreach ($childCategories as $childCategory)    
-                        <option>{{ $childCategory->name }}</option>
+                        <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
                         @endforeach
                     </select>
                     <select class="form-control">
@@ -157,6 +159,8 @@
             </div>
         </div> --}}
     </div>
+
+    <script src="{{ asset('/js/category.js') }}" type="module"></script>
 </body>
 
 </html>

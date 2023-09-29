@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,6 @@ Route::get('/search', [ItemController::class, 'search'])->name('items.search');
 
 // itemに関するリソースコントローラー
 Route::resource('item', ItemController::class);
+
+// categoryに関するルート
+Route::get('/get-childcategories', [CategoryController::class, 'getChildCategories']);

@@ -16,25 +16,32 @@ class ItemController extends Controller
      */
     public function index()
     {
+        // itemsテーブルとcategoryテーブルを結合し、itemsのidの昇順で並び替える.
         $items = DB::table('items')
                     ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
                     ->leftJoin('category','items.category_id', '=', 'category.id')
                     ->orderBy('item_id')
                     ->paginate(30);
         
+        // 大カテゴリを取得する.
         $parentCategories = DB::table('category')
                             ->whereNull('parent')
                             ->whereNull('name_all')
+                            ->orderBy('id')
                             ->get();
         
+        // 中カテゴリを取得する.
         $childCategories = DB::table('category')
                             ->whereNotNull('parent')
                             ->whereNull('name_all')
+                            ->orderBy('id')
                             ->get();
         
+        // 小カテゴリを取得する.
         $grandChildCategories = DB::table('category')
                                 ->whereNotNull('parent')
                                 ->whereNotNull('name_all')
+                                ->orderBy('id')
                                 ->get();
 
         return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
@@ -43,6 +50,7 @@ class ItemController extends Controller
     // 商品を検索する
     public function search(Request $request)
     {
+        // 入力値を取得する.
         $itemName = $request->input('itemName');
         $brand = $request->input('brand');
 
@@ -58,19 +66,25 @@ class ItemController extends Controller
                     ->orderBy('items.id')
                     ->paginate(30);
 
+        // 大カテゴリを取得する.
         $parentCategories = DB::table('category')
                 ->whereNull('parent')
                 ->whereNull('name_all')
+                ->orderBy('id')
                 ->get();
 
+        // 中カテゴリを取得する.
         $childCategories = DB::table('category')
                 ->whereNotNull('parent')
                 ->whereNull('name_all')
+                ->orderBy('id')
                 ->get();
 
+        // 小カテゴリを取得する.
         $grandChildCategories = DB::table('category')
                     ->whereNotNull('parent')
                     ->whereNotNull('name_all')
+                    ->orderBy('id')
                     ->get();
         
         return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
