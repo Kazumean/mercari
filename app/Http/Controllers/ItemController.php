@@ -53,6 +53,9 @@ class ItemController extends Controller
         // 入力値を取得する.
         $itemName = $request->input('itemName');
         $brand = $request->input('brand');
+        $parentCategory = $request->input('parent_category_id');
+        $childCategory = $request->input('child_category_id');
+        $grandchildCategory = $request->input('grandchild_category_id');
 
         $items = DB::table('items')
                     ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
@@ -63,8 +66,12 @@ class ItemController extends Controller
                     ->where(function ($query) use ($brand) {
                         $query->where('items.brand', 'like', "%$brand%");
                     })
+                    ->where(function ($query) use ($grandchildCategory) {
+                        $query->where('category.id', '=', $grandchildCategory);
+                    })
                     ->orderBy('items.id')
                     ->paginate(30);
+
 
         // 大カテゴリを取得する.
         $parentCategories = DB::table('category')

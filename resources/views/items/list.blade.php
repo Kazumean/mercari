@@ -72,10 +72,10 @@
                         <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
                         @endforeach
                     </select>
-                    <select id="grandchild_category_id" class="form-control">
+                    <select id="grandchild_category_id" name="grandchild_category_id" class="form-control">
                         <option>- grandChild -</option>
                         @foreach ($grandChildCategories as $grandChildCategory)    
-                        <option>{{ $grandChildCategory->name }}</option>
+                        <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
