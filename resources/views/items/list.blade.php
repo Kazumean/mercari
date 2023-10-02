@@ -11,12 +11,14 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
         integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
-    <link rel="stylesheet" href="./mercari.css" />
+    <link rel="stylesheet" href="{{ asset('/css/mercari.css') }}" />
     <!-- script -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <title>Rakus Items</title>
 </head>
 
@@ -30,7 +32,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="./list.html">Rakus Items</a>
+            <a class="navbar-brand" href="{{ route('item.index')}}">Rakus Items</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <div>
@@ -52,34 +54,34 @@
 
         <!-- 検索フォーム -->
         <div id="forms">
-            <form action="" class="form-inline" role="form">
+            <form action="{{ route('items.search') }}" class="form-inline" role="form" method="GET">
                 <div class="form-group">
-                    <input type="input" class="form-control" id="name" placeholder="item name" />
+                    <input type="input" class="form-control" id="itemName" name="itemName" placeholder="item name" />
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>
                 <div class="form-group">
-                    <select class="form-control">
-                        <option>- parentCategory -</option>
+                    <select id="parent_category_id" name="parent_category_id" class="form-control">
+                        <option value="0">- parentCategory -</option>
                         @foreach ($parentCategories as $parentCategory)    
-                        <option>{{ $parentCategory->name }}</option>
+                        <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
                         @endforeach
                     </select>
-                    <select class="form-control">
-                        <option>- childCategory -</option>
+                    <select id="child_category_id" name="child_category_id" class="form-control">
+                        <option value="0">- childCategory -</option>
                         @foreach ($childCategories as $childCategory)    
-                        <option>{{ $childCategory->name }}</option>
+                        <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
                         @endforeach
                     </select>
-                    <select class="form-control">
-                        <option>- grandChild -</option>
+                    <select id="grandchild_category_id" name="grandchild_category_id" class="form-control">
+                        <option value="0">- grandChild -</option>
                         @foreach ($grandChildCategories as $grandChildCategory)    
-                        <option>{{ $grandChildCategory->name }}</option>
+                        <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="brand" />
+                    <input type="text" class="form-control" id="brand" name="brand" placeholder="brand" />
                 </div>
                 <div class="form-group"></div>
                 <button type="submit" class="btn btn-default"><i class="fa fa-angle-double-right"></i> search</button>
@@ -157,6 +159,8 @@
             </div>
         </div> --}}
     </div>
+
+    <script src="{{ asset('/js/category.js') }}" type="module"></script>
 </body>
 
 </html>
