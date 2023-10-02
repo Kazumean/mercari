@@ -60,20 +60,20 @@
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>
                 <div class="form-group">
-                    <select id="parent_category_id" class="form-control">
-                        <option>- parentCategory -</option>
+                    <select id="parent_category_id" name="parent_category_id" class="form-control">
+                        <option value="0">- parentCategory -</option>
                         @foreach ($parentCategories as $parentCategory)    
                         <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
                         @endforeach
                     </select>
-                    <select id="child_category_id" class="form-control">
-                        <option>- childCategory -</option>
+                    <select id="child_category_id" name="child_category_id" class="form-control">
+                        <option value="0">- childCategory -</option>
                         @foreach ($childCategories as $childCategory)    
                         <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
                         @endforeach
                     </select>
                     <select id="grandchild_category_id" name="grandchild_category_id" class="form-control">
-                        <option>- grandChild -</option>
+                        <option value="0">- grandChild -</option>
                         @foreach ($grandChildCategories as $grandChildCategory)    
                         <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
                         @endforeach
