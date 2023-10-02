@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -149,7 +150,28 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        // 大カテゴリを取得する.
+        $parentCategories = DB::table('category')
+                            ->whereNull('parent')
+                            ->whereNull('name_all')
+                            ->orderBy('id')
+                            ->get();
+        
+        // 中カテゴリを取得する.
+        $childCategories = DB::table('category')
+                            ->whereNotNull('parent')
+                            ->whereNull('name_all')
+                            ->orderBy('id')
+                            ->get();
+        
+        // 小カテゴリを取得する.
+        $grandChildCategories = DB::table('category')
+                                ->whereNotNull('parent')
+                                ->whereNotNull('name_all')
+                                ->orderBy('id')
+                                ->get();
+
+        return view('items.add', compact('parentCategories', 'childCategories', 'grandChildCategories'));
     }
 
     /**
@@ -158,9 +180,19 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
-        //
+        $item = new Item();
+
+        $item->name = $request->itemName;
+        $item->price = $request->price;
+        $item->category_id = $request->grandchild_category_id;
+        $item->brand = $request->brand;
+        $item->condition_id = $request->condition;
+        $item->description = $request->description;
+        $item->save();
+
+        return redirect()->route('item.create')->with('success', '商品を登録しました。');
     }
 
     /**

@@ -49,7 +49,7 @@
     <div id="main" class="container-fluid">
         <!-- addItem link -->
         <div id="addItemButton">
-            <a class="btn btn-default" href="./add.html"><i class="fa fa-plus-square-o"></i> Add New Item</a>
+            <a class="btn btn-default" href="{{ route('item.create') }}"><i class="fa fa-plus-square-o"></i> Add New Item</a>
         </div>
 
         <!-- 検索フォーム -->
