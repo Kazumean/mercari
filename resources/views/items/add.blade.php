@@ -62,8 +62,8 @@
             <div class="form-group">
                 <label for="inputName" class="col-sm-2 control-label">name</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="inputName" name="name" />
-                    @error('name')
+                    <input type="text" class="form-control" id="inputName" name="itemName" />
+                    @error('itemName')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
@@ -116,7 +116,7 @@
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
                     @error('grandchild_category_id')
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="text-danger">カテゴリーは必ず指定してください。</span>
                     @enderror
                 </div>
             </div>

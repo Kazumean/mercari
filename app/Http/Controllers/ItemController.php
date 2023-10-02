@@ -184,7 +184,7 @@ class ItemController extends Controller
     {
         $item = new Item();
 
-        $item->name = $request->name;
+        $item->name = $request->itemName;
         $item->price = $request->price;
         $item->category_id = $request->grandchild_category_id;
         $item->brand = $request->brand;
