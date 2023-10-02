@@ -31,7 +31,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('item.index')}}">Rakus Items</a>
+            <a class="navbar-brand" href="{{ route('item.index') }}">Rakus Items</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <div>
@@ -47,8 +47,13 @@
 
     <!-- details -->
     <div id="input-main" class="container">
-        <a type="button" class="btn btn-default" href="{{ route('item.index')}}"><i class="fa fa-reply"></i> back</a>
+        <a type="button" class="btn btn-default" href="{{ route('item.index') }}"><i class="fa fa-reply"></i> back</a>
         <h2>Add</h2>
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <!-- add form -->
         <form action="{{ route('item.store') }}" method="POST" class="form-horizontal">
@@ -75,8 +80,8 @@
                 <div class="col-sm-8">
                     <select class="form-control" id="parent_category_id" name="parent_category_id">
                         <option value="0">- parentCategory -</option>
-                        @foreach ($parentCategories as $parentCategory)    
-                        <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
+                        @foreach ($parentCategories as $parentCategory)
+                            <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -86,8 +91,8 @@
                 <div class="col-sm-8">
                     <select class="form-control" id="child_category_id" name="child_category_id">
                         <option value="0">- childCategory -</option>
-                        @foreach ($childCategories as $childCategory)    
-                        <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
+                        @foreach ($childCategories as $childCategory)
+                            <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -97,8 +102,8 @@
                 <div class="col-sm-8">
                     <select class="form-control" id="grandchild_category_id" name="grandchild_category_id">
                         <option value="0">- grandChild -</option>
-                        @foreach ($grandChildCategories as $grandChildCategory)    
-                        <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
+                        @foreach ($grandChildCategories as $grandChildCategory)
+                            <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>

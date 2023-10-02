@@ -191,7 +191,7 @@ class ItemController extends Controller
         $item->description = $request->description;
         $item->save();
 
-        return redirect()->route('item.create');
+        return redirect()->route('item.create')->with('success', '商品を登録しました。');
     }
 
     /**
