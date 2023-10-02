@@ -63,7 +63,9 @@
                 <label for="inputName" class="col-sm-2 control-label">name</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="inputName" name="name" />
-                    <span class="text-danger">error:may not be empty</span>
+                    @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- price -->
@@ -71,7 +73,9 @@
                 <label for="price" class="col-sm-2 control-label">price</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="price" name="price" />
-                    <span class="text-danger">error:may not be empty</span>
+                    @error('price')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- category -->
@@ -111,7 +115,9 @@
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
-                    <span class="text-danger">error:may not be empty</span>
+                    @error('grandchild_category_id')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- brand -->
@@ -119,7 +125,9 @@
                 <label for="brand" class="col-sm-2 control-label">brand</label>
                 <div class="col-sm-8">
                     <input type="text" id="brand" class="form-control" name="brand" />
-                    <span class="text-danger">error:may not be empty</span>
+                    @error('brand')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- condition -->
@@ -140,7 +148,9 @@
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
-                    <span class="text-danger">error:may not be empty</span>
+                    @error('condition')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- description -->
@@ -148,7 +158,9 @@
                 <label for="description" class="col-sm-2 control-label">description</label>
                 <div class="col-sm-8">
                     <textarea name="description" id="description" class="form-control" rows="5"></textarea>
-                    <span class="text-danger">error:may not be empty</span>
+                    @error('description')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- submit button -->
