@@ -29,7 +29,7 @@ class ItemRequest extends FormRequest
             'grandchild_category_id' => 'required | integer | min:1',
             'brand' => 'required | string | max:255',
             'condition' => 'required | integer',
-            'description' => 'required | text',
+            'description' => 'required | string',
         ];
     }
 }

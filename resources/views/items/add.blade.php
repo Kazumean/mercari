@@ -62,9 +62,9 @@
             <div class="form-group">
                 <label for="inputName" class="col-sm-2 control-label">name</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="inputName" name="itemName" />
+                    <input type="text" class="form-control" id="inputName" name="itemName" value="{{ old('itemName')}}" />
                     @error('itemName')
-                    <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
@@ -72,9 +72,9 @@
             <div class="form-group">
                 <label for="price" class="col-sm-2 control-label">price</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="price" name="price" />
+                    <input type="text" class="form-control" id="price" name="price" value="{{ old('price') }}" />
                     @error('price')
-                    <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     <select class="form-control" id="parent_category_id" name="parent_category_id">
                         <option value="0">- parentCategory -</option>
                         @foreach ($parentCategories as $parentCategory)
-                            <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
+                            <option value="{{ $parentCategory->id }}" {{ old('parent_category_id') == $parentCategory->id ? 'selected' : '' }}>{{ $parentCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -96,7 +96,7 @@
                     <select class="form-control" id="child_category_id" name="child_category_id">
                         <option value="0">- childCategory -</option>
                         @foreach ($childCategories as $childCategory)
-                            <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
+                            <option value="{{ $childCategory->id }}" {{ old('child_category_id') == $childCategory->id ? 'selected' : '' }}>{{ $childCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -107,7 +107,7 @@
                     <select class="form-control" id="grandchild_category_id" name="grandchild_category_id">
                         <option value="0">- grandChild -</option>
                         @foreach ($grandChildCategories as $grandChildCategory)
-                            <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
+                            <option value="{{ $grandChildCategory->id }}" {{ old('grandchild_category_id') == $grandChildCategory->id ? 'selected' : '' }}>{{ $grandChildCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -116,7 +116,7 @@
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
                     @error('grandchild_category_id')
-                    <span class="text-danger">カテゴリーは必ず指定してください。</span>
+                        <span class="text-danger">カテゴリーは必ず指定してください。</span>
                     @enderror
                 </div>
             </div>
@@ -124,9 +124,9 @@
             <div class="form-group">
                 <label for="brand" class="col-sm-2 control-label">brand</label>
                 <div class="col-sm-8">
-                    <input type="text" id="brand" class="form-control" name="brand" />
+                    <input type="text" id="brand" class="form-control" name="brand" value="{{ old('brand') }}" />
                     @error('brand')
-                    <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
@@ -135,13 +135,13 @@
                 <label for="condition" class="col-sm-2 control-label">condition</label>
                 <div class="col-sm-8">
                     <label for="condition1" class="radio-inline">
-                        <input type="radio" name="condition" id="condition1" value="1" /> 1
+                        <input type="radio" name="condition" id="condition1" value="1" {{ old('condition') == '1' ? 'checked' : '' }}/> 1
                     </label>
                     <label for="condition2" class="radio-inline">
-                        <input type="radio" name="condition" id="condition2" value="2" /> 2
+                        <input type="radio" name="condition" id="condition2" value="2" {{ old('condition') == '2' ? 'checked' : '' }}/> 2
                     </label>
                     <label for="condition3" class="radio-inline">
-                        <input type="radio" name="condition" id="condition3" value="3" /> 3
+                        <input type="radio" name="condition" id="condition3" value="3" {{ old('condition') == '3' ? 'checked' : '' }}/> 3
                     </label>
                 </div>
             </div>
@@ -149,7 +149,7 @@
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
                     @error('condition')
-                    <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
@@ -157,9 +157,9 @@
             <div class="form-group">
                 <label for="description" class="col-sm-2 control-label">description</label>
                 <div class="col-sm-8">
-                    <textarea name="description" id="description" class="form-control" rows="5"></textarea>
+                    <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
                     @error('description')
-                    <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
