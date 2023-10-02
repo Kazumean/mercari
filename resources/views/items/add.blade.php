@@ -17,6 +17,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Rakus Items</title>
 </head>
 
@@ -50,12 +51,13 @@
         <h2>Add</h2>
 
         <!-- add form -->
-        <form action="#" method="POST" class="form-horizontal">
+        <form action="{{ route('item.store') }}" method="POST" class="form-horizontal">
+            @csrf
             <!-- name -->
             <div class="form-group">
                 <label for="inputName" class="col-sm-2 control-label">name</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="inputName" />
+                    <input type="text" class="form-control" id="inputName" name="name" />
                     <span class="text-danger">error:may not be empty</span>
                 </div>
             </div>
@@ -63,7 +65,7 @@
             <div class="form-group">
                 <label for="price" class="col-sm-2 control-label">price</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="price" />
+                    <input type="text" class="form-control" id="price" name="price" />
                     <span class="text-danger">error:may not be empty</span>
                 </div>
             </div>
@@ -71,39 +73,33 @@
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label">category</label>
                 <div class="col-sm-8">
-                    <select class="form-control">
-                        <option>-- parentCategory --</option>
-                        <option>parentCategory1</option>
-                        <option>parentCategory2</option>
-                        <option>parentCategory3</option>
-                        <option>parentCategory4</option>
-                        <option>parentCategory5</option>
+                    <select class="form-control" id="parent_category_id" name="parent_category_id">
+                        <option value="0">- parentCategory -</option>
+                        @foreach ($parentCategories as $parentCategory)    
+                        <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
-                    <select class="form-control">
-                        <option>-- childCategory --</option>
-                        <option>childCategory1</option>
-                        <option>childCategory2</option>
-                        <option>childCategory3</option>
-                        <option>childCategory4</option>
-                        <option>childCategory5</option>
+                    <select class="form-control" id="child_category_id" name="child_category_id">
+                        <option value="0">- childCategory -</option>
+                        @foreach ($childCategories as $childCategory)    
+                        <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
-                    <select class="form-control">
-                        <option>-- grandChild --</option>
-                        <option>grandChild1</option>
-                        <option>grandChild2</option>
-                        <option>grandChild3</option>
-                        <option>grandChild4</option>
-                        <option>grandChild5</option>
+                    <select class="form-control" id="grandchild_category_id" name="grandchild_category_id">
+                        <option value="0">- grandChild -</option>
+                        @foreach ($grandChildCategories as $grandChildCategory)    
+                        <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -158,6 +154,7 @@
             </div>
         </form>
     </div>
+    <script src="{{ asset('/js/category.js') }}" type="module"></script>
 </body>
 
 </html>
