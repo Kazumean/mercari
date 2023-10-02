@@ -185,10 +185,13 @@ class ItemController extends Controller
 
         $item->name = $request->name;
         $item->price = $request->price;
-        //$item->category_id = $request->category;
+        $item->category_id = $request->grandchild_category_id;
         $item->brand = $request->brand;
         $item->condition_id = $request->condition;
         $item->description = $request->description;
+        $item->save();
+
+        return redirect()->route('item.create');
     }
 
     /**
