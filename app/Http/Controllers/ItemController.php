@@ -30,6 +30,7 @@ class ItemController extends Controller
         $parentCategories = $this->itemService->getParentCategories();
         $childCategories = $this->itemService->getChildCategories();
         $grandChildCategories = $this->itemService->getGrandChildCategories();
+        // dd($items);
 
         return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
     }
@@ -151,9 +152,9 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Item $item)
     {
-        //
+        return view('items.detail', compact('item'));
     }
 
     /**

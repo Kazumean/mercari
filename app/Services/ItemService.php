@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class ItemService
 {
+    // itemsテーブルとcategoryテーブルを結合。すべてのitemsの情報を取得する.
     public function getAllItemsWithCategories()
     {
         return DB::table('items')
@@ -13,6 +14,16 @@ class ItemService
             ->leftJoin('category', 'items.category_id', '=', 'category.id')
             ->orderBy('item_id')
             ->paginate(30);
+    }
+
+    // itemsテーブルとcategoryテーブルを結合。idで指定したitemの情報を取得する.
+    public function getItemWithCategories($id)
+    {
+        return DB::table('items')
+            ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id','items.description', 'category.parent', 'category.name as category_name', 'category.name_all')
+            ->leftJoin('category', 'items.category_id', '=', 'category.id')
+            ->where('items.id', $id)
+            ->first();
     }
 
     // 大カテゴリを取得する.
