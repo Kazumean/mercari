@@ -165,9 +165,11 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Item $item)
     {
-        //
+        $item = $this->itemService->getItemWithCategories($item->id);
+
+        return view('items.edit', compact('item'));
     }
 
     /**
