@@ -118,7 +118,7 @@
                             $category = explode('/', $categoryNameAll);
                         @endphp
                         <tr>
-                            <td class="item-name"><a href="./detail.html">{{ $item->item_name }}</a></td>
+                            <td class="item-name"><a href="{{ route('item.show', ['item' => $item->item_id]) }}">{{ $item->item_name }}</a></td>
                             <td class="item-price">{{ $item->price }}</td>
                             <td class="item-category">
                                 <a href="">{{ isset($category[0]) ? $category[0] : '' }}</a> / <a href="">{{ isset($category[1]) ? $category[1] : '' }}</a> / <a
