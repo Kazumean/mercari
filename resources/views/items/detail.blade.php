@@ -46,7 +46,7 @@
 
     <!-- details -->
     <div class="container">
-        <a type="button" class="btn btn-default" href="{{ route('item.index') }}"><i class="fa fa-reply"></i> back</a>
+        <a type="button" class="btn btn-default" href="{{ url()->previous() }}"><i class="fa fa-reply"></i> back</a>
         <h2>Details</h2>
         <div id="details">
             <table class="table table-hover">
