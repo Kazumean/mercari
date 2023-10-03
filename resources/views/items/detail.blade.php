@@ -53,11 +53,11 @@
                 <tbody>
                     <tr>
                         <th>ID</th>
-                        <td>{{ $item->id }}</td>
+                        <td>{{ $item->item_id }}</td>
                     </tr>
                     <tr>
                         <th>name</th>
-                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->item_name }}</td>
                     </tr>
                     <tr>
                         <th>price</th>

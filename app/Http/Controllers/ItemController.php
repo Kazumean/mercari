@@ -154,6 +154,8 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
+        $item = $this->itemService->getItemWithCategories($item->id);
+
         return view('items.detail', compact('item'));
     }
 
