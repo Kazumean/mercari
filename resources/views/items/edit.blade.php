@@ -51,7 +51,9 @@
         <h2>Edit</h2>
 
         <!-- edit form -->
-        <form action="#" method="POST" class="form-horizontal">
+        <form action="{{ route('item.update', ['item' => $item->item_id]) }}" method="POST" class="form-horizontal">
+            @csrf
+            @method('PATCH')
             <!-- name -->
             <div class="form-group">
                 <label for="inputName" class="col-sm-2 control-label">name</label>
