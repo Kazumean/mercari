@@ -86,7 +86,7 @@
                     </tr>
                 </tbody>
             </table>
-            <a type="button" class="btn btn-default" href="./edit.html"><i
+            <a type="button" class="btn btn-default" href="{{ route('item.edit', ['item' => $item->item_id]) }}"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;edit</a>
         </div>
     </div>

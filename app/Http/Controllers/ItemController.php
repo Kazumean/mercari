@@ -165,9 +165,20 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Item $item)
     {
-        //
+        $item = $this->itemService->getItemWithCategories($item->id);
+        $itemGrandChildCaterogyId = $item->category_id;
+        $itemChildCategoryId = $item->parent;
+        $itemParentCategoryId = DB::table('category')
+                                    ->where('id', $itemChildCategoryId)
+                                    ->value('parent');
+
+        $parentCategories = $this->itemService->getParentCategories();
+        $childCategories = $this->itemService->getChildCategories();
+        $grandChildCategories = $this->itemService->getGrandChildCategories();
+
+        return view('items.edit', compact('item', 'itemGrandChildCaterogyId', 'itemChildCategoryId', 'itemParentCategoryId', 'parentCategories', 'childCategories', 'grandChildCategories'));
     }
 
     /**
@@ -177,9 +188,17 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ItemRequest $request, Item $item)
     {
-        //
+        $item->name = $request->itemName;
+        $item->price = $request->price;
+        $item->category_id = $request->grandchild_category_id;
+        $item->brand = $request->brand;
+        $item->condition_id = $request->condition;
+        $item->description = $request->description;
+        $item->save();
+
+        return redirect()->route('item.show', $item)->with('success', '商品の情報を更新しました。');
     }
 
     /**

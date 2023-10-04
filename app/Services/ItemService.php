@@ -20,13 +20,13 @@ class ItemService
     public function getItemWithCategories($id)
     {
         return DB::table('items')
-            ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id','items.description', 'category.parent', 'category.name as category_name', 'category.name_all')
+            ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id as category_id','items.description', 'category.parent', 'category.name as category_name', 'category.name_all')
             ->leftJoin('category', 'items.category_id', '=', 'category.id')
             ->where('items.id', $id)
             ->first();
     }
 
-    // 大カテゴリを取得する.
+    // 大カテゴリ群を取得する.
     public function getParentCategories()
     {
         return DB::table('category')
@@ -36,7 +36,7 @@ class ItemService
                 ->get();
     }
 
-    // 中カテゴリを取得する.
+    // 中カテゴリ群を取得する.
     public function getChildCategories()
     {
         return DB::table('category')
@@ -46,7 +46,7 @@ class ItemService
                 ->get();
     }
 
-    // 小カテゴリを取得する.
+    // 小カテゴリ群を取得する.
     public function getGrandChildCategories()
     {
         return DB::table('category')
@@ -54,5 +54,14 @@ class ItemService
                 ->whereNotNull('name_all')
                 ->orderBy('id')
                 ->get();
+    }
+
+    // 小カテゴリから中カテゴリを取得する.
+    public function getChildCategoryFromGrandchild()
+    {
+        return DB::table('category')
+                ->select('id', 'parent', 'name', 'name_all')
+                ->where('parent', '=', 'id')
+                ->first();
     }
 }
