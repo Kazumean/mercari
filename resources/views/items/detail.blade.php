@@ -53,6 +53,11 @@
     <div class="container">
         <a type="button" class="btn btn-default" href="{{ url()->previous() }}"><i class="fa fa-reply"></i> back</a>
         <h2>Details</h2>
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         <div id="details">
             <table class="table table-hover">
                 <tbody>
