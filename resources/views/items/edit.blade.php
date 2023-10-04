@@ -17,6 +17,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Rakus Items</title>
 </head>
 
@@ -55,53 +56,53 @@
             <div class="form-group">
                 <label for="inputName" class="col-sm-2 control-label">name</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="inputName" />
+                    <input type="text" class="form-control" id="inputName" name="itemName" value="{{ old('itemName', $item->item_name)}}" />
+                    @error('itemName')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- price -->
             <div class="form-group">
                 <label for="price" class="col-sm-2 control-label">price</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="price" />
+                    <input type="text" class="form-control" id="price" name="price" value="{{ old('price', $item->price) }}" />
+                    @error('price')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- category -->
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label">category</label>
                 <div class="col-sm-8">
-                    <select class="form-control">
-                        <option>- parentCategory -</option>
-                        <option>parentCategory1</option>
-                        <option>parentCategory2</option>
-                        <option>parentCategory3</option>
-                        <option>parentCategory4</option>
-                        <option>parentCategory5</option>
+                    <select class="form-control" id="parent_category_id" name="parent_category_id">
+                        <option value="0">- parentCategory -</option>
+                        @foreach ($parentCategories as $parentCategory)
+                            <option value="{{ $parentCategory->id }}" {{ $itemParentCategoryId == $parentCategory->id ? 'selected' : '' }} {{ old('parent_category_id') == $parentCategory->id ? 'selected' : '' }}>{{ $parentCategory->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
-                    <select class="form-control">
-                        <option>- childCategory -</option>
-                        <option>childCategory1</option>
-                        <option>childCategory2</option>
-                        <option>childCategory3</option>
-                        <option>childCategory4</option>
-                        <option>childCategory5</option>
+                    <select class="form-control" id="child_category_id" name="child_category_id">
+                        <option value="0">- childCategory -</option>
+                        @foreach ($childCategories as $childCategory)
+                            <option value="{{ $childCategory->id }}" {{ $itemChildCategoryId == $childCategory->id ? 'selected' : '' }} {{ old('child_category_id') == $childCategory->id ? 'selected' : '' }}>{{ $childCategory->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label"></label>
                 <div class="col-sm-8">
-                    <select class="form-control">
-                        <option>- grandChild -</option>
-                        <option>grandChild1</option>
-                        <option>grandChild2</option>
-                        <option>grandChild3</option>
-                        <option>grandChild4</option>
-                        <option>grandChild5</option>
+                    <select class="form-control" id="grandchild_category_id" name="grandchild_category_id">
+                        <option value="0">- grandChild -</option>
+                        @foreach ($grandChildCategories as $grandChildCategory)
+                            <option value="{{ $grandChildCategory->id }}" {{ $itemGrandChildCaterogyId == $grandChildCategory->id ? 'selected' : '' }} {{ old('grandchild_category_id') == $grandChildCategory->id ? 'selected' : '' }}>{{ $grandChildCategory->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -109,7 +110,10 @@
             <div class="form-group">
                 <label for="brand" class="col-sm-2 control-label">brand</label>
                 <div class="col-sm-8">
-                    <input type="text" id="brand" class="form-control" name="brand" />
+                    <input type="text" id="brand" class="form-control" name="brand" value="{{ old('brand', $item->brand) }}" />
+                    @error('brand')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <!-- condition -->
@@ -117,13 +121,13 @@
                 <label for="condition" class="col-sm-2 control-label">condition</label>
                 <div class="col-sm-8">
                     <label for="condition1" class="radio-inline">
-                        <input type="radio" name="condition" id="condition1" value="1" /> 1
+                        <input type="radio" name="condition" id="condition1" value="1" {{ $item->condition_id == 1 ? 'checked' : '' }} {{ old('condition') == 1 ? 'checked' : '' }}/> 1
                     </label>
                     <label for="condition2" class="radio-inline">
-                        <input type="radio" name="condition" id="condition2" value="2" /> 2
+                        <input type="radio" name="condition" id="condition2" value="2" {{ $item->condition_id == 2 ? 'checked' : '' }} {{ old('condition') == 2 ? 'checked' : '' }}/> 2
                     </label>
                     <label for="condition3" class="radio-inline">
-                        <input type="radio" name="condition" id="condition3" value="3" /> 3
+                        <input type="radio" name="condition" id="condition3" value="3" {{ $item->condition_id == 3 ? 'checked' : '' }} {{ old('condition') == 3 ? 'checked' : '' }}/> 3
                     </label>
                 </div>
             </div>
@@ -131,7 +135,7 @@
             <div class="form-group">
                 <label for="description" class="col-sm-2 control-label">description</label>
                 <div class="col-sm-8">
-                    <textarea name="description" id="description" class="form-control" rows="5"></textarea>
+                    <textarea name="description" id="description" class="form-control" rows="5">{{ old('description', $item->description) }}</textarea>
                 </div>
             </div>
             <!-- submit button -->
@@ -142,6 +146,8 @@
             </div>
         </form>
     </div>
+
+    <script src="{{ asset('/js/category.js') }}" type="module"></script>
 </body>
 
 </html>

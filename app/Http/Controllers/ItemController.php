@@ -168,8 +168,17 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         $item = $this->itemService->getItemWithCategories($item->id);
+        $itemGrandChildCaterogyId = $item->category_id;
+        $itemChildCategoryId = $item->parent;
+        $itemParentCategoryId = DB::table('category')
+                                    ->where('id', $itemChildCategoryId)
+                                    ->value('parent');
 
-        return view('items.edit', compact('item'));
+        $parentCategories = $this->itemService->getParentCategories();
+        $childCategories = $this->itemService->getChildCategories();
+        $grandChildCategories = $this->itemService->getGrandChildCategories();
+
+        return view('items.edit', compact('item', 'itemGrandChildCaterogyId', 'itemChildCategoryId', 'itemParentCategoryId', 'parentCategories', 'childCategories', 'grandChildCategories'));
     }
 
     /**
