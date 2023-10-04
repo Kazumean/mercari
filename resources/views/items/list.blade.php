@@ -57,6 +57,11 @@
             <a class="btn btn-default" href="{{ route('item.create') }}"><i class="fa fa-plus-square-o"></i> Add New
                 Item</a>
         </div>
+        @if (session('danger'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('danger') }}
+            </div>
+        @endif
 
         <!-- 検索フォーム -->
         <div id="forms">
