@@ -45,7 +45,7 @@
                     </li>
                 </ul>
                 <p class="navbar-text navbar-right">
-                    <span id="loginName">user: userName</span>
+                    <span id="loginName">user: {{Auth::user()->name }}</span>
                 </p>
             </div>
         </div>
