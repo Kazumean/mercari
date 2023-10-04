@@ -11,7 +11,7 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
         integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
-    <link rel="stylesheet" href="./mercari.css" />
+    <link rel="stylesheet" href="{{ asset('/css/mercari.css') }}" />
     <!-- script -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div>
-            <a type="button" class="btn btn-default" href="./login.html"><i class="fa fa-reply"></i>&nbsp;Login
+            <a type="button" class="btn btn-default" href="{{ route('login') }}"><i class="fa fa-reply"></i>&nbsp;Login
                 page</a>
         </div>
 </body>

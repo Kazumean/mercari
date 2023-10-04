@@ -32,15 +32,20 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('item.index')}}">Rakus Items</a>
+            <a class="navbar-brand" href="{{ route('item.index') }}">Rakus Items</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a id="logout" href="./login.html">Logout <i class="fa fa-power-off"></i></a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit">Logout <i class="fa fa-power-off"></i></button>
+                        </form>
+                    </li>
                 </ul>
                 <p class="navbar-text navbar-right">
-                    <span id="loginName">user: userName</span>
+                    <span id="loginName">user: {{Auth::user()->name }}</span>
                 </p>
             </div>
         </div>
@@ -49,7 +54,8 @@
     <div id="main" class="container-fluid">
         <!-- addItem link -->
         <div id="addItemButton">
-            <a class="btn btn-default" href="{{ route('item.create') }}"><i class="fa fa-plus-square-o"></i> Add New Item</a>
+            <a class="btn btn-default" href="{{ route('item.create') }}"><i class="fa fa-plus-square-o"></i> Add New
+                Item</a>
         </div>
 
         <!-- 検索フォーム -->
@@ -62,20 +68,20 @@
                 <div class="form-group">
                     <select id="parent_category_id" name="parent_category_id" class="form-control">
                         <option value="0">- parentCategory -</option>
-                        @foreach ($parentCategories as $parentCategory)    
-                        <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
+                        @foreach ($parentCategories as $parentCategory)
+                            <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
                         @endforeach
                     </select>
                     <select id="child_category_id" name="child_category_id" class="form-control">
                         <option value="0">- childCategory -</option>
-                        @foreach ($childCategories as $childCategory)    
-                        <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
+                        @foreach ($childCategories as $childCategory)
+                            <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
                         @endforeach
                     </select>
                     <select id="grandchild_category_id" name="grandchild_category_id" class="form-control">
                         <option value="0">- grandChild -</option>
-                        @foreach ($grandChildCategories as $grandChildCategory)    
-                        <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
+                        @foreach ($grandChildCategories as $grandChildCategory)
+                            <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -118,10 +124,13 @@
                             $category = explode('/', $categoryNameAll);
                         @endphp
                         <tr>
-                            <td class="item-name"><a href="{{ route('item.show', ['item' => $item->item_id]) }}">{{ $item->item_name }}</a></td>
+                            <td class="item-name"><a
+                                    href="{{ route('item.show', ['item' => $item->item_id]) }}">{{ $item->item_name }}</a>
+                            </td>
                             <td class="item-price">{{ $item->price }}</td>
                             <td class="item-category">
-                                <a href="">{{ isset($category[0]) ? $category[0] : '' }}</a> / <a href="">{{ isset($category[1]) ? $category[1] : '' }}</a> / <a
+                                <a href="">{{ isset($category[0]) ? $category[0] : '' }}</a> / <a
+                                    href="">{{ isset($category[1]) ? $category[1] : '' }}</a> / <a
                                     href="">{{ $item->category_name }}</a>
                             </td>
                             <td class="item-brand"><a href="">{{ $item->brand }}</a></td>

@@ -36,10 +36,15 @@
         <div id="navbar" class="collapse navbar-collapse">
             <div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a id="logout" href="./login.html">Logout&nbsp;<i class="fa fa-power-off"></i></a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit">Logout <i class="fa fa-power-off"></i></button>
+                        </form>
+                    </li>
                 </ul>
                 <p class="navbar-text navbar-right">
-                    <span id="loginName">user: userName</span>
+                    <span id="loginName">user: {{Auth::user()->name }}</span>
                 </p>
             </div>
         </div>
