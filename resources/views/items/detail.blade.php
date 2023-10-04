@@ -17,6 +17,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
     </script>
+
     <title>Rakus Items</title>
 </head>
 
@@ -53,6 +54,11 @@
     <div class="container">
         <a type="button" class="btn btn-default" href="{{ url()->previous() }}"><i class="fa fa-reply"></i> back</a>
         <h2>Details</h2>
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         <div id="details">
             <table class="table table-hover">
                 <tbody>
@@ -93,6 +99,12 @@
             </table>
             <a type="button" class="btn btn-default" href="{{ route('item.edit', ['item' => $item->item_id]) }}"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;edit</a>
+
+            <form method="post" action="{{route('item.destroy', ['item' => $item->item_id])}}">
+                @csrf
+                @method('delete')
+                <button class="btn btn-default" onClick="return confirm('本当に削除しますか？');"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;delete</button>
+
         </div>
     </div>
 </body>
