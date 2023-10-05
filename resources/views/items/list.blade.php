@@ -37,16 +37,28 @@
         <div id="navbar" class="collapse navbar-collapse">
             <div>
                 <ul class="nav navbar-nav navbar-right">
+                    @guest
+                    <li>
+                        <form method="GET" action="{{ route('login') }}">
+                            @csrf
+                            <button type="submit">Login <i class="fa fa-power-off"></i></button>
+                        </form>
+                    </li>
+                    @endguest
+                    @auth
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit">Logout <i class="fa fa-power-off"></i></button>
+                            <button type="submit">Logout <i class="fa fa-sign-out"></i></button>
                         </form>
                     </li>
+                    @endauth
                 </ul>
+                @auth    
                 <p class="navbar-text navbar-right">
                     <span id="loginName">user: {{Auth::user()->name }}</span>
                 </p>
+                @endauth
             </div>
         </div>
     </nav>
