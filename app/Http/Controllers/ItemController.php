@@ -27,6 +27,7 @@ class ItemController extends Controller
     public function index()
     {
         $items = $this->itemService->getAllItemsWithCategories();
+
         $parentCategories = $this->itemService->getParentCategories();
         $childCategories = $this->itemService->getChildCategories();
         $grandChildCategories = $this->itemService->getGrandChildCategories();
@@ -35,81 +36,58 @@ class ItemController extends Controller
         return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
     }
     
-    // 商品を検索する
     public function search(Request $request)
-    {
-        // 入力値を取得する.
-        $itemName = $request->input('itemName');
-        $brand = $request->input('brand');
-        $parentCategoryId = $request->input('parent_category_id');
-        $childCategoryId = $request->input('child_category_id');
-        $grandchildCategoryId = $request->input('grandchild_category_id');
+{
+    $itemName = $request->input('itemName');
+    $brand = $request->input('brand');
+    $parentCategoryId = $request->input('parent_category_id');
+    $childCategoryId = $request->input('child_category_id');
+    $grandchildCategoryId = $request->input('grandchild_category_id');
 
-        // $items = DB::table('items')
-        //             ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
-        //             ->leftJoin('category','items.category_id', '=', 'category.id')
-        //             ->where(function ($query) use ($itemName) {
-        //                 $query->where('items.name', 'like', "%$itemName%");
-        //             })
-        //             ->where(function ($query) use ($brand) {
-        //                 $query->where('items.brand', 'like', "%$brand%");
-        //             })
-        //             ->where(function ($query) use ($parentCategoryId) {
-        //                 $query->where('category.id', '=', $parentCategoryId);
-        //             })
-        //             ->where(function ($query) use ($childCategoryId) {
-        //                 $query->where('category.id', '=', $childCategoryId);
-        //             })
-        //             ->where(function ($query) use ($grandchildCategoryId) {
-        //                 $query->where('category.id', '=', $grandchildCategoryId);
-        //             })
-        //             ->orderBy('items.id')
-        //             ->paginate(30);
+    $query = DB::table('items')
+        ->select(
+            'items.id as item_id',
+            'items.name as item_name',
+            'items.price',
+            'items.brand',
+            'items.condition_id',
+            'items.category_id',
+            'category.id as category_id',
+            'category.parent',
+            'category.name as category_name',
+            'category.name_all'
+        )
+        ->leftJoin('category', 'items.category_id', '=', 'category.id');
 
-
-        $items = DB::table('items')
-    ->select(
-        'items.id as item_id',
-        'items.name as item_name',
-        'items.price',
-        'items.brand',
-        'items.condition_id',
-        'items.category_id',
-        'category.id as category_id',
-        'category.parent',
-        'category.name as category_name',
-        'category.name_all'
-    )
-    ->leftJoin('category', 'items.category_id', '=', 'category.id')
-    ->where(function ($query) use ($itemName, $brand, $parentCategoryId, $childCategoryId, $grandchildCategoryId) {
-        $query->where(function ($subquery) use ($parentCategoryId, $childCategoryId, $grandchildCategoryId) {
-            // 中カテゴリと小カテゴリを同時に指定した場合に対応
-            if ($grandchildCategoryId != 0) {
-                $subquery->where('category.id', '=', $grandchildCategoryId);
-            } elseif ($childCategoryId != 0) {
-                $subquery->where('category.id', '=', $childCategoryId);
-            } elseif ($parentCategoryId != 0) {
-                $subquery->where('category.id', '=', $parentCategoryId);
-            }
-        });
-
-        if (!empty($itemName)) {
-            $query->where('items.name', 'like', "%$itemName%");
-        }
-
-        if (!empty($brand)) {
-            $query->where('items.brand', 'like', "%$brand%");
-        }
-    })
-    ->orderBy('items.id')
-    ->paginate(30);
-
-        $parentCategories = $this->itemService->getParentCategories();
-        $childCategories = $this->itemService->getChildCategories();
-        $grandChildCategories = $this->itemService->getGrandChildCategories();
-        
-        return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
+    if (!empty($itemName)) {
+        $query->where('items.name', 'like', "%$itemName%");
     }
+
+    if (!empty($brand)) {
+        $query->where('items.brand', 'like', "%$brand%");
+    }
+
+    // カテゴリ条件の組み立て
+    if ($grandchildCategoryId != 0) {
+        $query->where('items.category_id', '=', $grandchildCategoryId);
+    } elseif ($childCategoryId != 0) {
+        $query->where('items.category_id', '=', $childCategoryId);
+    } elseif ($parentCategoryId != 0) {
+        $query->where('items.category_id', '=', $parentCategoryId);
+    }
+
+    $items = $query->orderBy('items.id')->paginate(30);
+
+    // ページネーションのページ番号をクエリパラメータから取得
+    $pageNumber = $request->input('page', 1);
+
+    $parentCategories = $this->itemService->getParentCategories();
+    $childCategories = $this->itemService->getChildCategories();
+    $grandChildCategories = $this->itemService->getGrandChildCategories();
+
+    return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories', 'pageNumber'));
+}
+
 
     /**
      * Show the form for creating a new resource.

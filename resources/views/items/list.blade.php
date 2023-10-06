@@ -158,7 +158,8 @@
             </table>
         </div>
 
-        {{ $items->links('vendor.pagination.bootstrap-4') }}
+        {{-- {{ $items->links('vendor.pagination.bootstrap-4') }} --}}
+        {{ $items->appends(request()->input())->links('vendor.pagination.bootstrap-4') }}
         {{-- <!-- pagination -->
         <div class="pages">
             <nav class="page-nav">
