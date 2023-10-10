@@ -79,32 +79,38 @@
         <div id="forms">
             <form action="{{ route('items.search') }}" class="form-inline" role="form" method="GET">
                 <div class="form-group">
-                    <input type="input" class="form-control" id="itemName" name="itemName" placeholder="item name" />
+                    <input type="input" class="form-control" id="itemName" name="itemName" placeholder="item name" value="{{ old('itemName') }}"/>
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>
                 <div class="form-group">
                     <select id="parent_category_id" name="parent_category_id" class="form-control">
                         <option value="0">- parentCategory -</option>
                         @foreach ($parentCategories as $parentCategory)
-                            <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
+                            <option value="{{ $parentCategory->id }}" {{ old('parent_category_id') == $parentCategory->id ? 'selected' : '' }}>
+                                {{ $parentCategory->name }}
+                            </option>
                         @endforeach
                     </select>
                     <select id="child_category_id" name="child_category_id" class="form-control">
                         <option value="0">- childCategory -</option>
                         @foreach ($childCategories as $childCategory)
-                            <option value="{{ $childCategory->id }}">{{ $childCategory->name }}</option>
+                        <option value="{{ $childCategory->id }}" {{ old('child_category_id') == $childCategory->id ? 'selected' : '' }}>
+                            {{ $childCategory->name }}
+                        </option>
                         @endforeach
                     </select>
                     <select id="grandchild_category_id" name="grandchild_category_id" class="form-control">
                         <option value="0">- grandChild -</option>
                         @foreach ($grandChildCategories as $grandChildCategory)
-                            <option value="{{ $grandChildCategory->id }}">{{ $grandChildCategory->name }}</option>
+                        <option value="{{ $grandChildCategory->id }}" {{ old('grandchild_category_id') == $grandChildCategory->id ? 'selected' : '' }}>
+                            {{ $grandChildCategory->name }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group"><i class="fa fa-plus"></i></div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="brand" name="brand" placeholder="brand" />
+                    <input type="text" class="form-control" id="brand" name="brand" placeholder="brand" value="{{ old('brand') }}" />
                 </div>
                 <div class="form-group"></div>
                 <button type="submit" class="btn btn-default"><i class="fa fa-angle-double-right"></i> search</button>
