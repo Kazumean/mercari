@@ -153,8 +153,8 @@
                             <td class="item-price">{{ $item->price }}</td>
                             <td class="item-category">
                                 <a href="">{{ isset($category[0]) ? $category[0] : '' }}</a> / <a
-                                    href="">{{ isset($category[1]) ? $category[1] : '' }}</a> / <a
-                                    href="">{{ $item->category_name }}</a>
+                                    href="{{ route('items.searchItemsByChildCategory', ['category_id'=> $item->parent]) }}">{{ isset($category[1]) ? $category[1] : '' }}</a> / <a
+                                    href="{{ route('items.searchItemsByGrandchildCategory', ['category_id'=> $item->category_id]) }}">{{ $item->category_name }}</a>
                             </td>
                             <td class="item-brand"><a href="">{{ $item->brand }}</a></td>
                             <td class="item-condition">{{ $item->condition_id }}</td>

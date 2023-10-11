@@ -33,10 +33,12 @@ Route::middleware('auth')->group(function () {
 // 商品を検索する
 Route::get('/search', [ItemController::class, 'search'])->name('items.search');
 
-// itemに関するルート
-// Route::resource('item', ItemController::class)->middleware('auth');
+// 商品を中カテゴリで絞り込む
+Route::get('/search/childCategory/{category_id}', [ItemController::class, 'searchItemsByChildCategory'])->name('items.searchItemsByChildCategory');
+// 商品を小カテゴリで絞り込む
+Route::get('/search/grandchildCategory/{category_id}', [ItemController::class, 'searchItemsByGrandchildCategory'])->name('items.searchItemsByGrandchildCategory');
 
-// 月報関連のルート
+// itemに関するルート
 Route::get('/item', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('item.show');
 
@@ -47,6 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/item/{item}', [ItemController::class, 'update'])->name('item.update');
     Route::delete('/item/{item}', [ItemController::class, 'destroy'])->name('item.destroy');
     });
+
+    
 
 // categoryに関するルート
 Route::get('/get-childcategories', [CategoryController::class, 'getChildCategories']);

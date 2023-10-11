@@ -37,56 +37,80 @@ class ItemController extends Controller
     }
     
     public function search(Request $request)
-{
-    $itemName = $request->input('itemName');
-    $brand = $request->input('brand');
-    $parentCategoryId = $request->input('parent_category_id');
-    $childCategoryId = $request->input('child_category_id');
-    $grandchildCategoryId = $request->input('grandchild_category_id');
+    {
+        $itemName = $request->input('itemName');
+        $brand = $request->input('brand');
+        $parentCategoryId = $request->input('parent_category_id');
+        $childCategoryId = $request->input('child_category_id');
+        $grandchildCategoryId = $request->input('grandchild_category_id');
 
-    $query = DB::table('items')
-        ->select(
-            'items.id as item_id',
-            'items.name as item_name',
-            'items.price',
-            'items.brand',
-            'items.condition_id',
-            'items.category_id',
-            'category.id as category_id',
-            'category.parent',
-            'category.name as category_name',
-            'category.name_all'
-        )
-        ->leftJoin('category', 'items.category_id', '=', 'category.id');
+        $query = DB::table('items')
+            ->select(
+                'items.id as item_id',
+                'items.name as item_name',
+                'items.price',
+                'items.brand',
+                'items.condition_id',
+                'items.category_id',
+                'category.id as category_id',
+                'category.parent',
+                'category.name as category_name',
+                'category.name_all'
+            )
+            ->leftJoin('category', 'items.category_id', '=', 'category.id');
 
-    if (!empty($itemName)) {
-        $query->where('items.name', 'like', "%$itemName%");
+        if (!empty($itemName)) {
+            $query->where('items.name', 'like', "%$itemName%");
+        }
+
+        if (!empty($brand)) {
+            $query->where('items.brand', 'like', "%$brand%");
+        }
+
+        // カテゴリ条件の組み立て
+        if ($grandchildCategoryId != 0) {
+            $query->where('items.category_id', '=', $grandchildCategoryId);
+        } elseif ($childCategoryId != 0) {
+            $query->where('items.category_id', '=', $childCategoryId);
+        } elseif ($parentCategoryId != 0) {
+            $query->where('items.category_id', '=', $parentCategoryId);
+        }
+
+        $items = $query->orderBy('items.id')->paginate(30);
+
+        // ページネーションのページ番号をクエリパラメータから取得
+        $pageNumber = $request->input('page', 1);
+
+        $parentCategories = $this->itemService->getParentCategories();
+        $childCategories = $this->itemService->getChildCategories();
+        $grandChildCategories = $this->itemService->getGrandChildCategories();
+
+        return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories', 'pageNumber'));
     }
 
-    if (!empty($brand)) {
-        $query->where('items.brand', 'like', "%$brand%");
+    // 小カテゴリで絞り込む
+    public function searchItemsByGrandchildCategory($category_id)
+    {
+        $items = $this->itemService->getItemByGrandchildCategory($category_id);
+
+        $parentCategories = $this->itemService->getParentCategories();
+        $childCategories = $this->itemService->getChildCategories();
+        $grandChildCategories = $this->itemService->getGrandChildCategories();
+
+        return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
     }
 
-    // カテゴリ条件の組み立て
-    if ($grandchildCategoryId != 0) {
-        $query->where('items.category_id', '=', $grandchildCategoryId);
-    } elseif ($childCategoryId != 0) {
-        $query->where('items.category_id', '=', $childCategoryId);
-    } elseif ($parentCategoryId != 0) {
-        $query->where('items.category_id', '=', $parentCategoryId);
+    // 中カテゴリで絞り込む
+    public function searchItemsByChildCategory($category_id)
+    {
+        $items = $this->itemService->getItemByChildCategory($category_id);
+
+        $parentCategories = $this->itemService->getParentCategories();
+        $childCategories = $this->itemService->getChildCategories();
+        $grandChildCategories = $this->itemService->getGrandChildCategories();
+
+        return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories'));
     }
-
-    $items = $query->orderBy('items.id')->paginate(30);
-
-    // ページネーションのページ番号をクエリパラメータから取得
-    $pageNumber = $request->input('page', 1);
-
-    $parentCategories = $this->itemService->getParentCategories();
-    $childCategories = $this->itemService->getChildCategories();
-    $grandChildCategories = $this->itemService->getGrandChildCategories();
-
-    return view('items.list', compact('items', 'parentCategories', 'childCategories', 'grandChildCategories', 'pageNumber'));
-}
 
 
     /**
