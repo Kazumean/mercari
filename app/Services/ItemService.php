@@ -10,7 +10,18 @@ class ItemService
     public function getAllItemsWithCategories()
     {
         return DB::table('items')
-            ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id', 'category.parent', 'category.name as category_name', 'category.name_all')
+            ->select(
+                'items.id as item_id',
+                'items.name as item_name',
+                'items.price',
+                'items.brand',
+                'items.condition_id',
+                'items.category_id',
+                'category.id',
+                'category.parent',
+                'category.name as category_name',
+                'category.name_all'
+            )
             ->leftJoin('category', 'items.category_id', '=', 'category.id')
             ->orderBy('item_id')
             ->paginate(30);
@@ -20,10 +31,68 @@ class ItemService
     public function getItemWithCategories($id)
     {
         return DB::table('items')
-            ->select('items.id as item_id', 'items.name as item_name', 'items.price', 'items.brand', 'items.condition_id', 'items.category_id', 'category.id as category_id','items.description', 'category.parent', 'category.name as category_name', 'category.name_all')
+            ->select(
+                'items.id as item_id',
+                'items.name as item_name',
+                'items.price',
+                'items.brand',
+                'items.condition_id',
+                'items.category_id',
+                'category.id as category_id',
+                'items.description',
+                'category.parent',
+                'category.name as category_name',
+                'category.name_all'
+            )
             ->leftJoin('category', 'items.category_id', '=', 'category.id')
             ->where('items.id', $id)
             ->first();
+    }
+
+    // 小カテゴリで絞り込み検索をする
+    public function getItemByGrandchildCategory($category_id)
+    {
+        return DB::table('items')
+            ->select(
+                'items.id as item_id',
+                'items.name as item_name',
+                'items.price',
+                'items.brand',
+                'items.condition_id',
+                'items.category_id',
+                'category.id as category_id',
+                'items.description',
+                'category.parent',
+                'category.name as category_name',
+                'category.name_all'
+            )
+            ->leftJoin('category', 'items.category_id', '=', 'category.id')
+            ->where('category_id', $category_id)
+            ->orderBy('item_id')
+            ->paginate(30);
+    }
+
+    // 中カテゴリで絞り込み検索をする
+    public function getItemByChildCategory($category_id)
+    {
+        return DB::table('items')
+            ->select(
+                'items.id as item_id',
+                'items.name as item_name',
+                'items.price',
+                'items.brand',
+                'items.condition_id',
+                'items.category_id',
+                'category.id as category_id',
+                'items.description',
+                'category.parent',
+                'category.name as category_name',
+                'category.name_all'
+            )
+            ->leftJoin('category', 'items.category_id', '=', 'category.id')
+            ->where('category_id', $category_id)
+            ->orderBy('item_id')
+            ->paginate(30);
     }
 
     // 大カテゴリ群を取得する.
